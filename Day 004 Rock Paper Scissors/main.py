@@ -26,7 +26,6 @@ scissors = '''
 ---.__(___)
 '''
 
-# Write your code below this line 👇
 choices = [rock, paper, scissors]
 game_running = True
 score = {"wins": 0,
@@ -57,7 +56,6 @@ while game_running:
         elif bot_choice == 2:   # Bot chooses scissors
             print("You win!")
             score["wins"] += 1
-
 
     # User chooses paper.
     elif user_choice == 1:
