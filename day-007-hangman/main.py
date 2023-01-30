@@ -3,7 +3,7 @@
 # Added display for incorrectly guessed letters.
 # Lives no longer decrease when guessing already guessed letters.
 # 25/6/22
-# Fixed crash on guessing >1 char. 
+# Fixed crash on guessing >1 char.
 
 import hangman_art
 import hangman_words
