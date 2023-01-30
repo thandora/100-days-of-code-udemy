@@ -28,37 +28,70 @@ class SpotPainter:
         self.turtle.pensize(thickness)
         self.turtle.fillcolor("green")
 
-    def paint(self, width, height, spacing, is_random=False):
+    def paint(self, n_row, n_column, spacing, color_random=False):
+
         dot_radius = self.turtle.pensize()
         # -1 is there because somehow the dot size starts at 0, not 1
         spacing_distance = (dot_radius * 2) + spacing - 1
+        direction = "right"
 
-        for c_height in range(height):
-            for c_width in range(width):
-                if is_random:
-                    random_color = random.choice(self.palette)
-                    self.turtle.pencolor(random_color)
-                self.turtle.pu()
-                self.turtle.dot()
-                # Don't move turtle if drawing last dot in row
-                if c_width == (width - 1):
-                    if not c_height == (height - 1):
-                        # If turtle is going right:
-                        if self.turtle.heading() == 0:
-                            self.turtle.rt(90)
-                            self.turtle.forward(spacing_distance)
-                            self.turtle.rt(90)
-                        else:
-                            self.turtle.lt(90)
-                            self.turtle.forward(spacing_distance)
-                            self.turtle.lt(90)
-                    continue
+        for i in range(n_row):
+            self.paint_row(n_column, spacing_distance, direction, color_random)
+            # Don't move turtle after drawing last dot
+            if i == (n_row) - 1:
+                continue
 
-                self.turtle.forward(spacing_distance)
+            if direction == "right":
+                self.u_turn(spacing_distance, direction)
+                direction = "left"
+
+            elif direction == "left":
+                self.u_turn(spacing_distance, direction)
+                direction = "right"
+
+    def paint_row(self, n_elements, spacing, direction="right", color_random=False):
+        """Paint's a row of n_lements dots, spaced.
+
+        Args:
+            n_elements (_type_): _description_
+            spacing (_type_): _description_
+            direction (str, optional): _description_. Defaults to "right".
+            color_random (bool, optional): _description_. Defaults to False.
+        """
+        for i in range(n_elements):
+            if color_random:
+                self.random_color()
+            self.turtle.pu()
+            self.turtle.dot()
+
+            # Don't move forward after drawing last dot in row
+            if i == (n_elements - 1):
+                continue
+            self.turtle.forward(spacing)
+
+    def u_turn(self, distance, turn_direction: str = "right"):
+        """Does a u-turn on the direction provided, distance moved each step, but does not move
+        forward on the final turn.
+
+        Args:
+            current_direction (str): U-turns into the direction provided: "left" or "right"
+        """
+        if turn_direction == "right":
+            direction = 90
+        elif turn_direction == "left":
+            direction = -90
+
+        self.turtle.rt(direction)
+        self.turtle.forward(distance)
+        self.turtle.rt(direction)
+
+    def random_color(self):
+        """Changes self.turtle.pencolor randomly from self.palette"""
+        color = random.choice(self.palette)
+        self.turtle.pencolor(color)
 
 
 painter = SpotPainter(spark, 15, colors)
 painter.turtle.speed(0)
-painter.paint(5, 15, 15, True)
-print(painter.turtle.pensize())
+painter.paint(5, 5, 15, True)
 screen.exitonclick()
