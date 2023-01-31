@@ -8,6 +8,7 @@ from art import logo
 
 print(logo)
 
+
 # Create sets of decks. In the form of:
 # [boolean, [deck_1], ..,[deck_n]]
 # Boolean is True if infinite deck. Only true at n_decks == 0.
@@ -36,7 +37,7 @@ def draw_cards(n: int, decks: list):
     n_decks = len(decks) - 1
 
     is_deck_infinite = None
-    if decks[0] == True:
+    if decks[0]:
         is_deck_infinite = True
     else:
         is_deck_infinite = False

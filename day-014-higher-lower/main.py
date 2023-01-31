@@ -1,6 +1,7 @@
 import game_data
 import art
 import random
+
 # 1 Generate a random pair (A and B)
 # 2 Compare which has higher pts (A vs B)
 # 3 Let user guess
@@ -12,25 +13,25 @@ import random
 
 
 def print_info(data: dict, intro: str = ""):
-    '''
+    """
     Prints information about the data.
-    '''
+    """
     print(f"{intro}{data['name']}, {data['description']}, from {data['country']}.")
 
 
 def print_vs(a, b, vs_logo):
-    '''
+    """
     Prints versus screen with stylised "versus" using vs_logo.
-    '''
+    """
     print_info(a, "A: ")
     print(vs_logo)
     print_info(b, "B: ")
 
 
 def compare_followers(a: dict, b: dict):
-    '''
+    """
     Returns dict whose follower_count value is higher.
-    '''
+    """
     higher = 0
     if a["follower_count"] > b["follower_count"]:
         higher = a
@@ -43,9 +44,9 @@ def compare_followers(a: dict, b: dict):
 
 
 def get_random_players(n: int, players_list: list):
-    '''
+    """
     Return a list of n random players and updated l with selected players removed.
-    '''
+    """
     if n > len(players_list):
         return []
 
@@ -106,8 +107,10 @@ def game(data: list):
             loser_name = player_a["name"]
             loser_followers = player_a["follower_count"]
 
-        print(f"You lose! {winner_name} has {winner_followers}M followers. {loser_name} only \
-has {loser_followers}M followers!")
+        print(
+            f"You lose! {winner_name} has {winner_followers}M followers. {loser_name} only \
+has {loser_followers}M followers!"
+        )
 
         lose_message = ""
         if score == 0:

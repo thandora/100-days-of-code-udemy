@@ -4,15 +4,18 @@ Outputs encoded/ decoded string.
 """
 
 from art import logo
-alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+
+alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+            'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
 
 print(logo)
+
 
 # Caesar function
 def caesar(text, shift, code_type):
     caesar_text = ""
-    text_type = "encoded"       #For print format purpose. 
-    
+    text_type = "encoded"  # For print format purpose.
+
     # Ensure user input is within range.
     # This is only useful for decoding, encoding has it's fail-safe built-in.
     if shift > 26:
@@ -20,15 +23,15 @@ def caesar(text, shift, code_type):
 
     # Change direction of shift in case of decoding.
     if code_type == "decode":
-            shift *= -1
-            text_type ="decoded"
+        shift *= -1
+        text_type = "decoded"
 
     # Take each character in string and shift it if it's in the alphabet, otherwrise don't change it.
     for letter in text:
         if letter in alphabet:
-            position = alphabet.index(letter) #Current index to be shifted
-            shifted_index = position + shift  #Shift index by "shift" amount of times.
-            if shifted_index > 25:            #Loop back to "A" if shifted index exceeds "Z"
+            position = alphabet.index(letter)  # Current index to be shifted
+            shifted_index = position + shift  # Shift index by "shift" amount of times.
+            if shifted_index > 25:  # Loop back to "A" if shifted index exceeds "Z"
                 shifted_index = (shifted_index % 25) - 1
 
             # Hold en/decoded character.
@@ -38,11 +41,11 @@ def caesar(text, shift, code_type):
 
         # Add shifted character to en/decoded string.
         caesar_text += new_letter
-        
-        
+
     # Print en/decoded string.
     print(f"\nThe {text_type} text is:\n{caesar_text}\n")
- 
+
+
 will_continue = True
 continue_choice = ""
 direction = ""
@@ -65,15 +68,14 @@ while will_continue:
             shift = int(input("Type the shift number:\n"))
         except ValueError:
             print("Enter a valid number.")
-        
-    
+
     # Ensure user input is of expected value.
     while not isinstance(shift, int):
         shift = int(input("Type the shift number:\n"))
 
     # Run caesar cipher
     caesar(text, shift, direction)
-    
+
     # Ensure user input is of expected value.
     continue_choice = input("Do you want to start again? y / n\n").lower()
     while continue_choice not in ["y", "n"]:
@@ -83,4 +85,3 @@ while will_continue:
     if continue_choice == "n":
         will_continue = False
         print("Goodbye.")
-    

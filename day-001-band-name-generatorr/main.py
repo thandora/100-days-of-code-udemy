@@ -1,3 +1,4 @@
+# The first step!
 # 1. Create a greeting for your program.
 print("Hello! Your band needs a name!")
 

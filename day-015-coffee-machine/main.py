@@ -77,8 +77,7 @@ def transact(coffee_type: str, customer_money: float, menu: dict):
 
 
 def ask_money():
-    """Prompts user for number of coins, and returns the sum.
-    """
+    """Prompts user for number of coins, and returns the sum."""
     MONEY_VALUE = {
         "quarter": 25,
         "dime": 10,
@@ -90,7 +89,7 @@ def ask_money():
     for coin, value in MONEY_VALUE.items():
         total += value * int(input(f"Insert {coin}: "))
 
-    return total/100
+    return total / 100
 
 
 def make_coffee(coffee_recipe: dict, stock: dict):
@@ -115,7 +114,9 @@ def coffee_machine(coffee_menu: dict, ingredients_stock: dict, keyword: str):
         # Ask user for coffee
         coffee_choice = ""
         while coffee_choice not in coffee_menu:
-            coffee_choice = input("What would you like? (Espresso, Latte, Cappuccino): ").lower()
+            coffee_choice = input(
+                "What would you like? (Espresso, Latte, Cappuccino): "
+            ).lower()
 
             # Print out stock and total money collected.
             if coffee_choice == keyword:
@@ -133,7 +134,9 @@ def coffee_machine(coffee_menu: dict, ingredients_stock: dict, keyword: str):
         # Check inventory for coffee requirements.
         #   if not enough, warn user, end.
         #   if enough, continue
-        if not check_resources(coffee_menu[coffee_choice]["ingredients"], ingredients_stock):
+        if not check_resources(
+            coffee_menu[coffee_choice]["ingredients"], ingredients_stock
+        ):
             break
 
         # Let user pay by inserting coins
@@ -146,7 +149,9 @@ def coffee_machine(coffee_menu: dict, ingredients_stock: dict, keyword: str):
             break
 
         # "returns" change lol
-        print(f"That would be ${coffee_cost}. Received ${user_money}. Here is ${change} in change.")
+        print(
+            f"That would be ${coffee_cost}. Received ${user_money}. Here is ${change} in change."
+        )
         total_money += coffee_cost
 
         # Make coffee
