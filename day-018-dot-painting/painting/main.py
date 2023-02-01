@@ -6,6 +6,7 @@ from turtle import Turtle, Screen
 spark = Turtle()
 spark.hideturtle()
 screen = Screen()
+# This allows rgb values. color(r, g, b) doesnt work otherwise.
 screen.colormode(255)
 
 palette = colorgram.extract("image.jpg", 150)
