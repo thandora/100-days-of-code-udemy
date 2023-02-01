@@ -49,6 +49,7 @@ class Snake:
             segment.goto(x_start - size, y_start)
             # Ditto
             self.segments.append(segment)
+        self.length += n
 
     def head_properties(self, size: int = 20, color: str = "red") -> None:
         """Change properties of head.
@@ -78,6 +79,7 @@ class Snake:
 
             self.head_properties(size, color)
             self.head = segment
+            self.length += 1
         else:
             # TODO turn this into an error(?)
             print(
@@ -99,7 +101,7 @@ class Snake:
             steps (int, optional): Number of steps taken Each step is equivalent to Snake.segment_size pixels.
             Defaults to 1.
         """
-        # TODO explain logic
+
         segments = self.segments
         head = self.head
 
@@ -107,14 +109,14 @@ class Snake:
         for _ in range(steps):
             # Iterate over a range of indices of segments of the snake, excluding the head.
             # e.g if there are 4 segments of the snake (including head), this will iterate over
-            # [3, 2, 1]
+            # [3, 2, 1]; 3 elements.
             n_segments = self.length
             x = range(1, (n_segments - 1))
             indices = list(reversed(x))
-            print(indices)
-            for i in range((len(segments) - 1), 0, -1):
+            for i in range(indices):
                 # Coordinates of front segment
                 coor = segments[i - 1].position()
+
                 # Move current segment to the one in front of it
                 segments[i].goto(coor)
 
