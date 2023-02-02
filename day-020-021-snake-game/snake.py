@@ -111,9 +111,10 @@ class Snake:
             # e.g if there are 4 segments of the snake (including head), this will iterate over
             # [3, 2, 1]; 3 elements.
             n_segments = self.length
-            x = range(1, (n_segments - 1))
+            x = range(1, n_segments)
+
             indices = list(reversed(x))
-            for i in range(indices):
+            for i in indices:
                 # Coordinates of front segment
                 coor = segments[i - 1].position()
 
