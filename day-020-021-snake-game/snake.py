@@ -2,6 +2,11 @@ from turtle import Turtle
 import time
 import random
 
+UP = 90
+DOWN = 270
+LEFT = 180
+RIGHT = 0
+
 
 class Snake:
     def __init__(self, size: int = 20, start_pos: tuple = (0, 0)) -> None:
@@ -18,7 +23,11 @@ class Snake:
         self.length = len(self.segments)
 
     def make_segments(
-        self, n: int, size: int = 20, color: str = "white", rand_color: bool = False
+        self,
+        n: int,
+        size: int = 20,
+        color: str = "white",
+        rand_color: bool = False,
     ) -> None:
         """Appends n segments to Snake.segments. A snake head is required to make segments.
         To create snake head, use Snake.init_head.
@@ -35,7 +44,7 @@ class Snake:
             if rand_color:
                 color = self.random_rgb()
 
-            segment = Turtle("square", visible="False")
+            segment = Turtle("square")
 
             # Take coordinate of last segment
             x_start = self.segments[-1].xcor()
@@ -50,6 +59,11 @@ class Snake:
             # Ditto
             self.segments.append(segment)
         self.length += n
+
+    def extend(self):
+        segment = Turtle("square")
+        self.segments.insert(0, segment)
+        self.length += 1
 
     def head_properties(self, size: int = 20, color: str = "red") -> None:
         """Change properties of head.
@@ -94,12 +108,14 @@ class Snake:
         b = random.randint(0, 255)
         return (r, g, b)
 
-    def move(self, steps: int = 1) -> None:
+    def move(self, steps: int = 1, speed: int = 15) -> tuple:
         """Move the snake n steps.
 
         Args:
             steps (int, optional): Number of steps taken Each step is equivalent to Snake.segment_size pixels.
             Defaults to 1.
+        Returns:
+            Tuple: coordinates of current head location
         """
 
         segments = self.segments
@@ -122,7 +138,8 @@ class Snake:
                 segments[i].goto(coor)
 
             head.forward(self.segment_size)
-            time.sleep(1 / 5)
+            time.sleep(1 / speed)
+            return head.position()
 
     def rotate_head(self, direction: str = "right") -> None:
         """Rotates the head 90 degrees clockwise or counter clockwise.
@@ -140,8 +157,41 @@ class Snake:
             print('Enter valid direction. "right", "cw", "left", "ccw"')
 
     def left(self) -> None:
-        """Rotates the head 90 degrees counter clockwise."""
-        self.head.left(90)
+        """Turns Snake.head to the left of the screen only when it is
+        already going up or down.
+        """
+
+        heading = self.head.heading()
+        if heading in [90, 270]:
+            self.head.setheading(LEFT)
 
     def right(self) -> None:
-        self.head.right(90)
+        """Turns Snake.head to the right of the screen only when it is
+        already going up or down.
+        """
+        heading = self.head.heading()
+        if heading in [90, 270]:
+            self.head.setheading(RIGHT)
+
+    def up(self) -> None:
+        """Turns Snake.head up of the screen only when it is
+        already going up or down.
+        """
+        heading = self.head.heading()
+        if heading in [0, 180]:
+            self.head.setheading(UP)
+
+    def down(self) -> None:
+        """Turns Snake.head down of the screen only when it is
+        already going up or down.
+        """
+        heading = self.head.heading()
+        if heading in [0, 180]:
+            self.head.setheading(DOWN)
+
+    def self_hit(self) -> bool:
+        for part in self.segments[1:]:
+            if self.head.distance(part) < 1:
+                return True
+
+        return False
