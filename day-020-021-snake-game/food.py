@@ -4,9 +4,24 @@ from turtle import Turtle
 
 class Food:
     def __init__(
-        self, screen_size: tuple, snake_size: int, color="blue", size: int = 10
+        self,
+        screen_size: tuple,
+        margin: int,
+        snake_size: int,
+        color="blue",
+        size: int = 10,
     ) -> None:
+        """Object responsible for spawning food in a random location on the screen.
+        Also responsible for respawning food when colliding with snake object.
 
+        Args:
+            screen_size (tuple): tuple of screen pixels in (x, y)
+            margin (int): number of pixels from edge of screen to border of playing screen
+            snake_size (int): width of each segment of snake, used for generating random coordinates for
+                              spawning food in the right location(e.g. to be "center" on the body of the snake)
+            color (str, optional): Food color. Defaults to "blue".
+            size (int, optional): Size of food in pixels. Defaults to 10.
+        """
         self.screen_size = screen_size
         self.size = size
         self.snake_size = snake_size
@@ -17,13 +32,18 @@ class Food:
         self.food.turtlesize(size / 20, size / 20)
         self.food.color(color)
 
+        self.margin = margin
         rand_coordinates = self.rand_coordinates()
         self.coordinates = rand_coordinates
 
     def rand_coordinates(self) -> tuple:
-        # Yes you can simplify the equation, but this is more intuitive
-        x_limit = round(self.screen_size[0] / 2)
-        y_limit = round(self.screen_size[1] / 2)
+        """Generates random coordinates from allowed playable area.
+
+        Returns:
+            tuple: Tuple of coordinates (x, y)
+        """
+        x_limit = round(self.screen_size[0] / 2) - self.margin
+        y_limit = round(self.screen_size[1] / 2) - self.margin
         x_limit_right = list(range(0, x_limit, self.snake_size))
         y_limit_up = list(range(0, y_limit, self.snake_size))
         x_limit_left = []
@@ -32,9 +52,8 @@ class Food:
             x_limit_left.append(-x)
         for y in y_limit_up:
             y_limit_down.append(-y)
-
-        x = set(x_limit_right + x_limit_left)
-        y = set(y_limit_up + y_limit_down)
+        x = set(x_limit_left + x_limit_right)
+        y = set(y_limit_down + y_limit_up)
 
         x_rand = random.choice(list(x))
         y_rand = random.choice(list(y))

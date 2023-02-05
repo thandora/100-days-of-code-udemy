@@ -39,15 +39,15 @@ class Snake:
             to turtle module. Defaults to "red"
             color_rand (see color): Randomizes color of each segment if True. Defaults to False
         """
-        y_start = self.start_pos[1]
         for i in range(n):
             if rand_color:
                 color = self.random_rgb()
 
             segment = Turtle("square")
 
-            # Take coordinate of last segment
+            # Take coordinates of last segment
             x_start = self.segments[-1].xcor()
+            y_start = self.segments[-1].ycor()
 
             # Segment properties
             segment.penup()
@@ -56,14 +56,11 @@ class Snake:
 
             # Set coordinates size pixels away (measured center to center)
             segment.goto(x_start - size, y_start)
-            # Ditto
             self.segments.append(segment)
         self.length += n
 
-    def extend(self):
-        segment = Turtle("square")
-        self.segments.insert(0, segment)
-        self.length += 1
+    def extend(self, color: str = "grey") -> None:
+        self.make_segments(n=1, color="grey")
 
     def head_properties(self, size: int = 20, color: str = "red") -> None:
         """Change properties of head.
@@ -190,6 +187,11 @@ class Snake:
             self.head.setheading(DOWN)
 
     def self_hit(self) -> bool:
+        """Checks for snake.head collision with any of its segment.
+
+        Returns:
+            bool: True if collision happens. False otherwise
+        """
         for part in self.segments[1:]:
             if self.head.distance(part) < 1:
                 return True

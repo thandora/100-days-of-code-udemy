@@ -2,6 +2,11 @@ from turtle import Turtle
 
 
 class Level1(Turtle):
+    """Generates simple box borders.
+
+    Args:
+        Turtle (object): turtle object
+    """
     def __init__(self, screen_size: tuple, margin: int = 25) -> None:
         super().__init__()
         self.screen_size = screen_size
