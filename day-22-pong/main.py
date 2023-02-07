@@ -5,7 +5,10 @@ from time import sleep
 from ball import Ball
 from scoreboard import Scoreboard
 
-# TODO debugging
+# TODO
+# 1. Add winner screen
+# 2. Stop paddle from going out of bounds
+# Game setup
 SCREEN_SIZE = (1200, 800)
 SCREEN_MARGIN = 60
 PLAYER_SIZE = (20, 80)
@@ -24,6 +27,7 @@ level.create_line(length=20, interval=50)
 
 ball = Ball(screen_size=SCREEN_SIZE, margin=SCREEN_MARGIN, player_size=PLAYER_SIZE)
 
+# Player paddles setup
 player_a = Player(
     length=PLAYER_LENGTH,
     screen_size=SCREEN_SIZE,
@@ -38,13 +42,14 @@ player_b = Player(
 )
 screen.listen()
 
+# Controls
 screen.onkeypress(player_a.up, "w")
 screen.onkeypress(player_a.down, "s")
 screen.onkeypress(player_b.up, "Up")
 screen.onkeypress(player_b.down, "Down")
 
 in_play = True
-while True:
+while in_play:
     sleep(1 / 144)
     ball.move()
 
@@ -63,6 +68,9 @@ while True:
     if ball.xcor() < player_a.xcor():
         ball.start_position()
         scoreboard.add_score_b()
+
+    if scoreboard.score_a >= 5 or scoreboard.score_b >= 5:
+        in_play = False
 
     screen.update()
 
