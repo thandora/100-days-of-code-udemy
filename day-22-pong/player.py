@@ -42,12 +42,26 @@ class Player(Turtle):
         elif location == "right":
             x = -((-(screen_size[0] / 2) + screen_margin) + 15)
 
+        # limits of play area in y coordinate
+        upper_lim = (screen_size[1] / 2) - (screen_margin + 5)
+        lower_lim = -upper_lim
+        self.play_area = (lower_lim, upper_lim)
         self.goto(x, 0)
 
-    def up(self):
+    def up(self) -> None:
         """Moves paddle north of screen, Player.travel_distance pixels."""
-        self.forward(self.travel_distance)
+        p_top_cord = self.ycor() + (self.length / 2)
+        if p_top_cord + self.travel_distance > self.play_area[1]:
+            remain_dist = self.play_area[1] - p_top_cord
+            self.forward(remain_dist)
+        else:
+            self.forward(self.travel_distance)
 
-    def down(self):
+    def down(self) -> None:
         """Moves paddle south of screen, Player.travel_distance pixels."""
-        self.backward(self.travel_distance)
+        p_bot_cord = self.ycor() - (self.length / 2)
+        if p_bot_cord - self.travel_distance < self.play_area[0]:
+            remain_dist = self.play_area[0] - p_bot_cord
+            self.forward(remain_dist)
+        else:
+            self.forward(-self.travel_distance)

@@ -10,7 +10,12 @@ class Ball(Turtle):
     """
 
     def __init__(
-        self, screen_size: tuple, margin: int, player_size: tuple, radius: int = 10
+        self,
+        screen_size: tuple,
+        margin: int,
+        player_size: tuple,
+        radius: int = 10,
+        init_speed: int = 4,
     ) -> None:
         """Initialise ball parameters.
 
@@ -19,12 +24,14 @@ class Ball(Turtle):
             margin (int): offset from screen edge
             player_size (tuple): width and height of player paddle in pixels (width, height)
             radius (int, optional): radius of ball. Defaults to 10.
+            init_speed (int, optional): speed of ball. Defaults to 4.
         """
         super().__init__()
         self.penup()
         self.shape("circle")
         self.color("white")
-        self.current_speed = 3
+        self.init_speed = init_speed
+        self.current_speed = self.init_speed
         self.shapesize(((radius * 2) / 20), ((radius * 2) / 20))
         self.radius = radius
 
@@ -96,5 +103,7 @@ class Ball(Turtle):
         return False
 
     def start_position(self) -> None:
+        """Resets ball position and speed to initial conditions.
+        """
         self.goto(0, 0)
-        self.current_speed = 3
+        self.current_speed = self.init_speed

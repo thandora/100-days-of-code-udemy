@@ -23,7 +23,7 @@ class Scoreboard(Turtle):
         self.score_b = 0
         self.update()
 
-    def update(self):
+    def update(self) -> None:
         """Updates drawn scoreboard with updated (intended) scores"""
         self.clear()
         self.goto(-100, (self.screen_size[1] / 2 - 155))
@@ -31,12 +31,20 @@ class Scoreboard(Turtle):
         self.goto(100, (self.screen_size[1] / 2 - 155))
         self.write(self.score_b, align="center", font=("Courier", 70, "normal"))
 
-    def add_score_a(self):
+    def add_score_a(self) -> None:
         """Updates Scoreboard.score_a and scoreboard"""
         self.score_a += 1
         self.update()
 
-    def add_score_b(self):
+    def add_score_b(self) -> None:
         """Updates Scoreboard.score_b and scoreboard"""
         self.score_b += 1
         self.update()
+
+    def left_win(self) -> None:
+        self.goto(0, 0)
+        self.write("LEFT player wins!", align="center", font=("Courier", 60, "normal"))
+
+    def right_win(self) -> None:
+        self.goto(0, 0)
+        self.write("RIGHT player wins!", align="center", font=("Courier", 60, "normal"))

@@ -5,15 +5,14 @@ from time import sleep
 from ball import Ball
 from scoreboard import Scoreboard
 
-# TODO
-# 1. Add winner screen
-# 2. Stop paddle from going out of bounds
 # Game setup
 SCREEN_SIZE = (1200, 800)
 SCREEN_MARGIN = 60
 PLAYER_SIZE = (20, 80)
 PLAYER_LENGTH = PLAYER_SIZE[1]
 ACCELERATION = 0.6
+# First player to teach this score wins
+MAX_SCORE = 3
 screen = Screen()
 screen.setup(width=SCREEN_SIZE[0], height=SCREEN_SIZE[1])
 screen.bgcolor("black")
@@ -25,7 +24,9 @@ level = Level(size=SCREEN_SIZE, margin=SCREEN_MARGIN)
 level.create_border()
 level.create_line(length=20, interval=50)
 
-ball = Ball(screen_size=SCREEN_SIZE, margin=SCREEN_MARGIN, player_size=PLAYER_SIZE)
+ball = Ball(
+    screen_size=SCREEN_SIZE, margin=SCREEN_MARGIN, player_size=PLAYER_SIZE, init_speed=4
+)
 
 # Player paddles setup
 player_a = Player(
@@ -69,7 +70,12 @@ while in_play:
         ball.start_position()
         scoreboard.add_score_b()
 
-    if scoreboard.score_a >= 5 or scoreboard.score_b >= 5:
+    if scoreboard.score_a == MAX_SCORE:
+        scoreboard.left_win()
+        in_play = False
+
+    if scoreboard.score_b == MAX_SCORE:
+        scoreboard.right_win()
         in_play = False
 
     screen.update()
