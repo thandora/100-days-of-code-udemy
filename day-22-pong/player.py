@@ -8,6 +8,7 @@ class Player(Turtle):
         screen_size: tuple,
         screen_margin: int,
         location: str = "left",
+        distance: int = 20,
     ):
         super().__init__()
         self.length = length
@@ -17,7 +18,7 @@ class Player(Turtle):
         self.setheading(90)
         self.turtlesize(stretch_len=length / 20)
         self.speed(0)
-
+        self.travel_distance = distance
         # 15 is offself from screen border.
         # For the player to touch the border, use offset of 12.5
         if location == "left":
@@ -28,9 +29,7 @@ class Player(Turtle):
         self.goto(x, 0)
 
     def up(self):
-        self.forward(10)
-        # new_y = self.ycor() + 20
-        # self.goto(self.xcor(), new_y)
+        self.forward(self.travel_distance)
 
     def down(self):
-        self.backward(10)
+        self.backward(self.travel_distance)
