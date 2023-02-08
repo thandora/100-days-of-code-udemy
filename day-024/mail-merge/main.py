@@ -9,7 +9,6 @@ with open(path_letter, "r") as f:
 
     with open(path_names, "r") as f:
         invited_names = f.readlines()
-        print(invited_names)
 
         for name in invited_names:
             name = name.strip()
