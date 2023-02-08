@@ -5,6 +5,11 @@ from scoreboard import Scoreboard
 from levels import Level1
 import time
 
+
+with open("highscore.txt", "r") as f:
+    high_score = int(f.read())
+
+print(high_score)
 SCREEN_SIZE = (800, 800)
 
 SCREEN_MARGIN = 25
@@ -34,7 +39,9 @@ snek = Snake(start_pos=START_POSITION)
 snek.init_head(20, "white")
 snek.make_segments(START_LENGTH - 1, color="grey")
 
-scoreboard = Scoreboard(snake=snek, food=berry, screen_size=SCREEN_SIZE)
+scoreboard = Scoreboard(
+    snake=snek, food=berry, screen_size=SCREEN_SIZE, high_score=high_score
+)
 scoreboard.color("white")
 screen.update()
 
@@ -50,10 +57,21 @@ screen.onkeypress(fun=snek.down, key="Down")
 screen.onkeypress(fun=snek.left, key="Left")
 screen.onkeypress(fun=snek.right, key="Right")
 
+
+def update_score_file(high_score: int):
+    """Updates high score in file.
+
+    Args:
+        high_score (int): high score.
+    """
+    with open("highscore.txt", "w") as f:
+        f.write(high_score)
+
+
 in_play = True
 while in_play:
-    screen.update()
     position = snek.move(1, speed=SNAKE_SPEED)
+    screen.update()
 
     if snek.self_hit() or (
         snek.head.xcor() < LEVEL_BORDERS[0]
@@ -61,15 +79,11 @@ while in_play:
         or snek.head.ycor() < LEVEL_BORDERS[2]
         or snek.head.ycor() > LEVEL_BORDERS[3]
     ):
-        print(snek.head)
+        if scoreboard.score > scoreboard.high_score:
+            update_score_file(str(scoreboard.score))
         scoreboard.reset()
         snek.reset()
         screen.update()
-        user_choice = screen.textinput("You died", "Play again? (y/n)")
-        if user_choice == "y": 
-            continue
-        else:
-            break
 
     if berry.collided(position):
         berry.spawn()

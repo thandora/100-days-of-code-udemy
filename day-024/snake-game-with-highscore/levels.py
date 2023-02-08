@@ -1,4 +1,4 @@
-from turtle import Turtle
+from turtle import Turtle, Screen
 
 
 class Level1(Turtle):
@@ -7,6 +7,7 @@ class Level1(Turtle):
     Args:
         Turtle (object): turtle object
     """
+
     def __init__(self, screen_size: tuple, margin: int = 25) -> None:
         super().__init__()
         self.screen_size = screen_size
