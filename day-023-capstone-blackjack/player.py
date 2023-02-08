@@ -6,6 +6,8 @@ FINISH_LINE_Y = 280
 
 
 class Player(Turtle):
+    """Player object, responsible for the creation of player, movement, and collision logic."""
+
     def __init__(self) -> None:
         super().__init__()
         self.penup()
