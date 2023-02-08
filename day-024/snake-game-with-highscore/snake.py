@@ -2,6 +2,7 @@ from turtle import Turtle
 import time
 import random
 
+
 UP = 90
 DOWN = 270
 LEFT = 180
@@ -187,16 +188,8 @@ class Snake:
 
     def reset(self) -> None:
         for segment in self.segments:
-            segment.clear()
             segment.hideturtle()
 
-        # init
-        self.segments = []
-        self.segment_size = 20
-        self.start_pos = (0, 0)
-        self.head = None
-        self.length = 0
-        # init end
+        self.__init__()
         self.init_head(20, "white")
-
         self.make_segments(START_LENGTH - 1, color="grey")
