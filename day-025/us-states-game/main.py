@@ -52,7 +52,7 @@ while score < 50:
     # Exit
     if user_guess == "Exit":
         # Creates a list of the difference between all the states and guessed states
-        s = list(set(states).difference(set(guessed_states)))
+        s = [x for x in states if x not in guessed_states]
 
         # Create csv for reviewing states
         unguessed_states = {"unguessed states": s}

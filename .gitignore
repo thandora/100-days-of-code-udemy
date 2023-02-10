@@ -2,3 +2,5 @@
 venv/
 example.py
 launch.json
+day-025/us-states-game/reviewer.csv
+.vscode/settings.json
