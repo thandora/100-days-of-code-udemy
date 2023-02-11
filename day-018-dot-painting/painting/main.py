@@ -29,7 +29,17 @@ class SpotPainter:
         self.turtle.pensize(thickness)
         self.turtle.fillcolor("green")
 
-    def paint(self, n_row, n_column, spacing, color_random=False):
+    def paint(
+        self, n_row: int, n_column: int, spacing: int, random_color: bool = False
+    ):
+        """Paint's an n_row by n_column grid of dots.
+
+        Args:
+            n_row (int): number of rows (horizontal)
+            n_column (int): number of columns (vertical)
+            spacing (int): spacing between dots, center to center, in pixels.
+            random_color (bool, optional): Randomizes color of each dot. Defaults to False.
+        """
 
         dot_radius = self.turtle.pensize()
         # -1 is there because somehow the dot size starts at 0, not 1
@@ -37,7 +47,7 @@ class SpotPainter:
         direction = "right"
 
         for i in range(n_row):
-            self.paint_row(n_column, spacing_distance, direction, color_random)
+            self.paint_row(n_column, spacing_distance, random_color)
             # Don't move turtle after drawing last dot
             if i == (n_row) - 1:
                 continue
@@ -50,7 +60,12 @@ class SpotPainter:
                 self.u_turn(spacing_distance, direction)
                 direction = "right"
 
-    def paint_row(self, n_elements, spacing, direction="right", color_random=False):
+    def paint_row(
+        self,
+        n_elements: int,
+        spacing: int,
+        color_random=False,
+    ):
         """Paint's a row of n_lements dots, spaced.
 
         Args:
@@ -70,7 +85,7 @@ class SpotPainter:
                 continue
             self.turtle.forward(spacing)
 
-    def u_turn(self, distance, turn_direction: str = "right"):
+    def u_turn(self, distance: int, turn_direction: str = "right"):
         """Does a u-turn on the direction provided, distance moved each step, but does not move
         forward on the final turn.
 
@@ -94,5 +109,5 @@ class SpotPainter:
 
 painter = SpotPainter(spark, 15, colors)
 painter.turtle.speed(0)
-painter.paint(5, 5, 15, True)
+painter.paint(n_row=3, n_column=8, spacing=15, random_color=True)
 screen.exitonclick()
