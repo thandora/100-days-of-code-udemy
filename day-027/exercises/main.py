@@ -1,5 +1,9 @@
 import tkinter
 
+"""
+Exercise for using the different UI elements of tkinter.
+"""
+
 # Initialize window
 window = tkinter.Tk()
 window.title("My First Tkinter UI")
@@ -16,6 +20,7 @@ my_label.pack()
 # Button
 # function to be called on button click
 def button_clicked():
+    """I am the doc"""
     entry_text = my_entry.get()
     my_label.config(text=f"{entry_text} (label)")
 
