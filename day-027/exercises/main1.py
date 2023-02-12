@@ -1,5 +1,4 @@
 import tkinter
-import main
 
 """
 Exercise on using layout managers, pack(), place(), grid()
