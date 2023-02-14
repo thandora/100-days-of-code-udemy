@@ -19,7 +19,7 @@ if n_max_sum < MIN_PASS_LENGTH:
 
 # ---------------------------- PASSWORD GENERATOR AND SEARCH ------------------------------- #
 # Taken from day 5 and modified.
-def generate_password():
+def generate_password() -> None:
     """Generate password with number of characters defined by N_LETTERS_MAX,
     N_SYMBOLS_MAX, N_NUMBERS_MAX. Places password to password entry.
     Automatically copies the password to clipboard"""
@@ -62,7 +62,8 @@ def generate_password():
     pyperclip.copy(password)
 
 
-def search():
+def search() -> None:
+    """Search passwords.json for website credentials and display in message box if found."""
     website = web_entry.get()
     try:
         with open("passwords.json", "r") as f:
@@ -71,9 +72,8 @@ def search():
     except FileNotFoundError:
         messagebox.showinfo(
             title="File Not Found",
-            message=f"json not found because web database is empty. Add an entry to start.",
+            message="json not found because web database is empty. Add an entry to start.",
         )
-        
 
     else:
         # Ignore casing in search
