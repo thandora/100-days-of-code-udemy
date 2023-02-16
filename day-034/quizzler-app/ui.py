@@ -61,22 +61,29 @@ class QuizInterface:
         self.score_label.config(text=f"Score: {self.score}/{self.n_questions}")
 
     def next_question(self) -> None:
-        question = self.quiz_brain.next_question()
+        if self.quiz_brain.still_has_questions():
+            text = self.quiz_brain.next_question()
+
+        else:
+            text = "You have reached the end of the quiz"
+
         self.canvas.config(bg="white")
-        self.canvas.itemconfig(self.text_question, text=question, font=QUESTION_FONT)
+        self.canvas.itemconfig(self.text_question, text=text, font=QUESTION_FONT)
 
     def true_pressed(self) -> None:
-        is_correct = self.quiz_brain.check_answer("True")
-        if is_correct:
-            self.add_score()
-        self.canvas_feedback(is_correct=is_correct)
+        if self.quiz_brain.still_has_questions():
+            is_correct = self.quiz_brain.check_answer("True")
+            if is_correct:
+                self.add_score()
+            self.canvas_feedback(is_correct=is_correct)
 
     def false_pressed(self) -> None:
-        is_correct = self.quiz_brain.check_answer("False")
-        if is_correct:
-            self.add_score()
+        if self.quiz_brain.still_has_questions():
+            is_correct = self.quiz_brain.check_answer("False")
+            if is_correct:
+                self.add_score()
 
-        self.canvas_feedback(is_correct=is_correct)
+            self.canvas_feedback(is_correct=is_correct)
 
     def canvas_feedback(self, is_correct: bool) -> None:
         if is_correct:
