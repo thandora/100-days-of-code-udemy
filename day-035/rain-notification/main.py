@@ -1,7 +1,9 @@
 import requests
 import pprint
-import pyperclip
 import smtplib
+import dotenv, os
+
+dotenv.load_dotenv(".env")
 
 """
 Check if it will rain in the following 12 hours, and send an email alert if
@@ -13,15 +15,18 @@ to register to another service with my credentials (twilio).
 Read more on API used: https://openweathermap.org/forecast5#5days
 """
 
-# API
-api_key = "OPEN WEATHER MAP API KEY"
-lat = 42
-lon = 42
+# .env variables
+api_key = os.getenv("API_KEY")
+lat = float(os.getenv("LAT"))
+lon = float(os.getenv("LON"))
+MY_EMAIL = os.getenv("MY_EMAIL")
+APP_PASSWORD = os.getenv("APP_PASSWORD")
 
 # EMAIL
-MY_EMAIL = "MY_EMAIL"
-APP_PASSWORD = "MY_EMAIL_APP_PASS"
+MY_EMAIL = MY_EMAIL
+APP_PASSWORD = APP_PASSWORD
 
+# API
 url = "https://api.openweathermap.org/data/2.5/forecast"
 parameters = {
     "lat": lat,
@@ -36,7 +41,6 @@ response.raise_for_status()
 weather_data = response.json()
 data_formatted = pprint.pformat(weather_data, sort_dicts=False)
 weather_slice = weather_data["list"][:4]
-pyperclip.copy(str(weather_data["list"][:4]))
 
 # Check if will rain in the following 12 hours.
 will_rain = False
