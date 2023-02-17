@@ -1,9 +1,9 @@
 import requests
 import pprint
 import smtplib
-import dotenv, os
+from dotenv import load_dotenv
+import os
 
-dotenv.load_dotenv(".env")
 
 """
 Check if it will rain in the following 12 hours, and send an email alert if
@@ -16,6 +16,7 @@ Read more on API used: https://openweathermap.org/forecast5#5days
 """
 
 # .env variables
+load_dotenv(".env")
 api_key = os.getenv("API_KEY")
 lat = float(os.getenv("LAT"))
 lon = float(os.getenv("LON"))
