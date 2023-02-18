@@ -1,22 +1,24 @@
 from datetime import datetime
 import requests
 import smtplib
-import time
+from dotenv import load_dotenv
+import os
 
-
-MY_EMAIL = "MY_EMAIL"
-APP_PASSWORD = "MY_APP_PASS"
-MY_LAT = 51.507351  # Your latitude
-MY_LONG = -0.127758  # Your longitude
+# .env
+load_dotenv(".env")
+MY_EMAIL = os.getenv("MY_EMAIL")
+APP_PASSWORD = os.getenv("MY_PASSWORD")
+MY_LAT = float(os.getenv("MY_LAT"))
+MY_LONG = float(os.getenv("MY_LON"))
 
 
 def is_iss_overhead() -> bool:
     response = requests.get(url="http://api.open-notify.org/iss-now.json")
     response.raise_for_status()
     data = response.json()
-
     iss_latitude = float(data["iss_position"]["latitude"])
     iss_longitude = float(data["iss_position"]["longitude"])
+
     # Your position is within +5 or -5 degrees of the ISS position.
     is_near = False
     if MY_LAT - 5 <= iss_latitude <= MY_LAT + 5:
@@ -36,6 +38,7 @@ def is_night() -> bool:
     response = requests.get("https://api.sunrise-sunset.org/json", params=parameters)
     response.raise_for_status()
     data = response.json()
+
     # Take hour time in sunrise and sunset
     sunrise = int(data["results"]["sunrise"].split("T")[1].split(":")[0])
     sunset = int(data["results"]["sunset"].split("T")[1].split(":")[0])
@@ -57,7 +60,8 @@ def send_notification() -> None:
         connection.sendmail(from_addr=MY_EMAIL, to_addrs=MY_EMAIL, msg=message)
 
 
-while True:
-    if is_night() and is_iss_overhead():
-        send_notification
-    time.sleep(60)
+# # Keep running
+# while True:
+#     if is_night() and is_iss_overhead():
+#         send_notification()
+#     time.sleep(60)
