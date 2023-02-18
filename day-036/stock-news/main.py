@@ -40,7 +40,7 @@ COMPANY_NAME = "Tesla Inc"
 stock_ep = "https://www.alphavantage.co/query"
 stock_parameters = {
     "function": "TIME_SERIES_DAILY_ADJUSTED",
-    "symbol": "IBM",
+    "symbol": STOCK_SYM,
     "outputsize": "compact",
     "apikey": stock_api_key,
 }
@@ -48,6 +48,7 @@ stock_parameters = {
 r = requests.get(url=stock_ep, params=stock_parameters)
 r.raise_for_status()
 stocks_data = r.json()
+print(stocks_data)
 
 today = datetime.today().date()
 yesterday = today - timedelta(days=1)
