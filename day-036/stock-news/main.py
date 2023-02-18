@@ -8,6 +8,8 @@ import smtplib
 Send's notification of recent change of a stock price
 (close price from yesterday compared to the day before yesterday)
 to an email. Also show 3 most popular articles mentioning the stock.
+Read more: https://www.alphavantage.co/
+           https://newsapi.org/
 """
 
 
