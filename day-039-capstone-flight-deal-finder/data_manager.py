@@ -1,37 +1,28 @@
 import os
 from dotenv import load_dotenv
+import requests
 
 load_dotenv(".env")
-epoint = os.getenv("SHEET_EPOINT")
-# remove above after making project
-import json
-import requests
+sheet_epoint = os.getenv("SHEET_EPOINT")
 
 
 class DataManager:
     # This class is responsible for talking to the Google Sheet.
-    def __init__(self, epoint) -> None:
-        self.sheet_endpoint = epoint
-        self.all_data = None
+    def __init__(self) -> None:
+        self.sheet_endpoint = sheet_epoint
+        self.destination_data = None
 
-    def get_all(self):
+    def get_destination_data(self):
         r = requests.get(url=self.sheet_endpoint)
-        return r.json()
+        self.destination_data = r.json()["prices"]
+        return self.destination_data
 
-    def get_low_prices(self) -> float:
+    def update_price(self, id, new_price):
+        url = f"{sheet_epoint}/{id}"
+        updated_data = {
+            "price": {
+                "lowestPrice": new_price,
+            }
+        }
 
-        if self.all_data is None:
-            r = requests.get(url=self.sheet_endpoint)
-            low_price = r.json()["prices"]
-        else:
-            low_price = self.all_data["prices"]
-
-        data = low_price
-        print(data)
-
-
-sheet_manager = DataManager(epoint=epoint)
-sheet_manager.get_low_prices()
-# with open("flightdata.json") as f:
-#     data = json.load(f)
-
+        requests.put(url=url, json=updated_data)

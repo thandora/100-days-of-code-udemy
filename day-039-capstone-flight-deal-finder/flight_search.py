@@ -1,5 +1,4 @@
 import requests
-import json
 from dotenv import load_dotenv
 import os
 from datetime import datetime, timedelta
@@ -20,12 +19,12 @@ today = today.strftime(r"%d/%m/%Y")
 tomorrow = tomorrow.strftime(r"%d/%m/%Y")
 end_date = end_date.strftime(r"%d/%m/%Y")
 
-
 search_params = {
     "fly_from": from_loc,
     "dateFrom": tomorrow,
     "dateTo": end_date,
     "curr": currency,
+    "limit": 50,
 }
 
 
