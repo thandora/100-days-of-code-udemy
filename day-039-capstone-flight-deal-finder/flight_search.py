@@ -4,6 +4,8 @@ import os
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 
+"""Responsible for doing search query on Kiwi using Kiwi's API"""
+
 # env vars
 load_dotenv(".env")
 search_epoint = os.getenv("SEARCH_EPOINT")
@@ -12,6 +14,8 @@ currency = os.getenv("CURRENCY")
 from_loc = os.getenv("FROM_LOC")
 
 # Dates and formatting
+# Per requirements, dates should range from tomorrow
+# to 6 months after that.
 today = datetime.now().date()
 tomorrow = today + timedelta(days=1)
 end_date = today + relativedelta(month=6)
@@ -29,12 +33,15 @@ search_params = {
 
 
 class FlightSearch:
-    # This class is responsible for talking to the Flight Search API.
+    """Class responsible for talking to Kiwi's Flight Search API"""
+
     def __init__(self) -> None:
+        """Load default search params from .env"""
         self.flight_params = search_params
 
     def search(self, location: str) -> dict:
-        """Search for flights bound to <location> using kiwi API.
+        """Search for flights bound to <location> using kiwi API. This
+        search will be sorted from lowest price by default.
 
         Args:
             location (str): code for destination
@@ -47,6 +54,6 @@ class FlightSearch:
         header = {"apikey": api_key}
         self.flight_params["fly_to"] = location.upper()
 
-        # Request from API
+        # Execute search query
         r = requests.get(url=url, params=self.flight_params, headers=header)
         return r.json()

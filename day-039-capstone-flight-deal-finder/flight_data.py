@@ -2,6 +2,8 @@ from dotenv import load_dotenv
 import os
 from datetime import datetime
 
+"""Class dealing with flight data"""
+
 # env vars
 load_dotenv(".env")
 search_epoint = os.getenv("SEARCH_EPOINT")
@@ -10,8 +12,9 @@ from_loc = os.getenv("FROM_LOC")
 
 
 class FlightData:
-    # This class is responsible for structuring the flight data.
-    def __init__(self, data) -> None:
+    """Responsible for storing, formatting, and generating date range for flight data."""
+
+    def __init__(self) -> None:
         self.lowest_flights = None
 
     def date_range(self, flights: list) -> list:
@@ -32,14 +35,32 @@ class FlightData:
         dates_str = [d.strftime(r"%Y-%m-%d") for d in dates]
         return [dates_str[0], dates_str[-1]]
 
-    def low_flights(self, raw_data):
-        # Check if any match
+    def low_flights(self, raw_data: dict) -> dict:
+        """Create a dict of where the lowest price (and equivalent) flights are
+        added to a list, how many flights of that price there are, and how much
+        was the flight.
+
+        Args:
+            raw_data (dict): dict of data from search query from flight_search
+
+        Returns:
+            dict: A dict in the form of:
+            {
+            "flights": <list of lowest priced flights>,
+            "found": <n of those flights>,
+            "price": <price of flights>,
+            }
+
+        """
+
         if len(raw_data["data"]) == 0:
             return None
 
         data = raw_data["data"]
         lowest_price = data[0]["price"]
         flights = []
+
+        # Check for
         for flight in data:
             if flight["price"] == lowest_price:
                 departure_date = flight["local_departure"].split("T")[0]
