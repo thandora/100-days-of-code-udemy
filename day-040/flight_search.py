@@ -28,7 +28,7 @@ search_params = {
     "dateFrom": tomorrow,
     "dateTo": end_date,
     "curr": currency,
-    "limit": 50,
+    "limit": 10,
 }
 
 

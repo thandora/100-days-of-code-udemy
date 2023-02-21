@@ -4,8 +4,8 @@ from data_manager import DataManager
 from notification_manager import NotificationManager
 
 """
-Sends an email notification if there are available flights that are priced
-lower than the historical lowest price stored in a google sheet.
+Sends an email notification to all users if there are available flights that
+are priced lower than the historical lowest price stored in a google sheet.
 """
 
 searcher = FlightSearch()
@@ -41,5 +41,6 @@ for data in data_manager.destination_data:
         data_manager.update_price(id=id, new_price=lowest_price)
         date_range = flight_data.date_range(flights=flights)
         message = notifier.format_message(flights=flights, date_range=date_range)
-        notifier.send_notification(message=message, to_email="cklint@hotmail.com")
-        print("Flight notification sent")
+        emails = data_manager.get_emails()
+        notifier.send_notification(message=message, emails=emails)
+        print("Flight notifications sent")

@@ -15,17 +15,22 @@ class NotificationManager:
     """Responsible for formatting data into verbose message and on sending
     out email notifications"""
 
-    def send_notification(self, to_email: str, message: str) -> None:
+    def send_notification(self, emails: any, message: str) -> None:
         """Send out email notifications via SMTP
 
         Args:
             to_email (str): email to send notification to
             message (str): message to send out
         """
-        with smtplib.SMTP("smtp.gmail.com", port=587) as connection:
-            connection.starttls()
-            connection.login(user=MY_EMAIL, password=APP_PASSWORD)
-            connection.sendmail(from_addr=MY_EMAIL, to_addrs=to_email, msg=message)
+
+        if type(emails) == str:
+            emails = [emails]
+
+        for email in emails:
+            with smtplib.SMTP("smtp.gmail.com", port=587) as connection:
+                connection.starttls()
+                connection.login(user=MY_EMAIL, password=APP_PASSWORD)
+                connection.sendmail(from_addr=MY_EMAIL, to_addrs=email, msg=message)
 
     def format_message(self, flights: dict, date_range: list) -> str:
         """Formats flight data to message
