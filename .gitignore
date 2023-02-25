@@ -7,4 +7,4 @@ day-025/us-states-game/reviewer.csv
 *.env*
 testdata.json
 todo.md
-playground*
+*playground*
