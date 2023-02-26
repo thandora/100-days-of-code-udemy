@@ -5,6 +5,27 @@ body {
   font-family: "Montserrat", sans-serif;
 }
 
+h1 {
+  color: #3795bd;
+  margin: 50px auto 0 auto;
+  font-size: 4.5rem;
+  font-family: "Permanent Marker", cursive;
+  line-height: 2;
+}
+
+h2 {
+  color: #3795bd;
+  font-size: 2.5rem;
+  font-weight: nor;
+}
+
+h3 {
+  color: #11999e;
+}
+
+a { 
+  color: #11999E;
+}
 /* Containers */
 .top-container {
   background-color: #93bfcf;
@@ -22,29 +43,34 @@ body {
 /* Containers above */
 
 /* Top container */
+.name-title {
+  margin-top: 1.5rem;
+  font-size: 1.5rem;
+  margin-bottom: 0;
+  text-decoration: underline;
+}
+
 .top-cloud {
   position: absolute;
-  top: 50px;
-  left: 60%;
+  top: 10%;
+  left: 70%;
 }
 
 .cloud-of-mountain {
   position: absolute;
 }
+
+.mountain-img {
+  margin-bottom: 0;
+}
 /* Top container */
 
-
+/* Middle container */
 .profile-picture {
   border-radius: 50%;
 }
 
-h1 {
-  margin: 0 auto 0 auto;
-  font-size: 60px;
-  font-family: "Permanent Marker", cursive;
+.skills-img {
+  border-radius: 50%;
 }
-
-.name-title {
-  margin: 0;
-  text-decoration: underline;
-}
+/* Middle container */
