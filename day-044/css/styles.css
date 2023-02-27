@@ -114,9 +114,13 @@ hr {
 
 .skill-row {
   margin: 80px auto;
-  width: 30%;
+  width: 50%;
   text-align: left;
   line-height: 2;
+}
+
+.skill-description {
+  width: 90%;
 }
 
 .btn {
@@ -149,7 +153,8 @@ hr {
   margin-bottom: 50px;
 }
 
-.contact-p {
+.contact-message {
+  width: 40%;
   margin: 50px auto;
 }
 
