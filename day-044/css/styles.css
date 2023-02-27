@@ -41,6 +41,7 @@ hr {
   border-right: none;
   margin: 100px auto;
 }
+
 /* Containers */
 .top-container {
   background-color: #93bfcf;
@@ -75,6 +76,11 @@ hr {
   text-decoration: underline;
 }
 
+.intro {
+  width: 30%;
+  margin: auto;
+}
+
 .top-cloud {
   position: absolute;
   top: 10%;
@@ -107,8 +113,8 @@ hr {
 }
 
 .skill-row {
-  margin: 100px auto;
-  width: 50%;
+  margin: 80px auto;
+  width: 30%;
   text-align: left;
   line-height: 2;
 }
