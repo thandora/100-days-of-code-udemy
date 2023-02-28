@@ -164,7 +164,11 @@ hr {
 
 .footer-link {
   margin: auto 25px;
-  color: #fff1dc;
+  color: #163847;
+}
+
+.footer-link:hover {
+  color: #11999e;
 }
 
 .bottom-cr {
@@ -173,7 +177,12 @@ hr {
 }
 
 .icon-credit {
+  color: #163847;
   margin: 20px auto;
   display: block;
+}
+
+.icon-credit:hover {
+  color: #11999e;
 }
 /* Bottom Container */
