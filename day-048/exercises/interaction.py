@@ -13,5 +13,5 @@ article_count = driver.find_element(
 )
 
 search_bar = driver.find_element(by=By.NAME, value="search")
-search_bar.send_keys('Python')
+search_bar.send_keys("Python")
 search_bar.send_keys(Keys.ENTER)
