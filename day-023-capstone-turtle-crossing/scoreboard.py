@@ -29,5 +29,4 @@ class Scoreboard(Turtle):
     def game_over(self) -> None:
         """Display gave over screen."""
         self.clear()
-        self.level += 1
         self.write(f"Level: {self.level} (GAME OVER)", font=FONT)
