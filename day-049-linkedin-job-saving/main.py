@@ -1,9 +1,17 @@
+"""Uses selenium webdriver to log in to LinkedIn, search for jobs specified
+by <SEARCH_QUERY>, filters the results to remote-work only, and saves the
+first 3 results
+"""
+
+
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from dotenv import load_dotenv
 import os
 import time
+
+SEARCH_QUERY = "data engineer"
 
 # Load env vars
 load_dotenv(".env")
@@ -36,7 +44,6 @@ time.sleep(6.5)
 jobs_tab = driver.find_element(
     by=By.XPATH, value="/html/body/div[5]/header/div/nav/ul/li[3]/a"
 )
-print(jobs_tab)
 jobs_tab.click()
 
 time.sleep(2)
@@ -44,11 +51,10 @@ time.sleep(2)
 
 # Search
 input_search = driver.find_element(
-    by=By.ID,
-    value="jobs-search-box-keyword-id-ember225",
+    by=By.CLASS_NAME,
+    value="jobs-search-box__text-input.jobs-search-box__keyboard-text-input",
 )
-search_query = "data engineer"
-input_search.send_keys(search_query)
+input_search.send_keys(SEARCH_QUERY)
 input_search.send_keys(Keys.ENTER)
 
 time.sleep(5)
@@ -70,15 +76,26 @@ apply_remote_filter = driver.find_element(
 )
 
 apply_remote_filter.click()
+time.sleep(3)
 
 # Select first three results
-results = driver.find_elements(
-    by=By.CSS_SELECTOR, value=".scaffold-layout__list-container li"
-)[:3]
+results_xpath = []
+for i in range(1, 4):
+    results_xpath.append(
+        f"/html[1]/body[1]/div[5]/div[3]/div[4]/div[1]/div[1]/main[1]/div[1]/section[1]/div[1]/ul[1]/li[{i}]"
+    )
+
+results = []
+for xpath in results_xpath:
+    results.append(driver.find_element(by=By.XPATH, value=xpath))
 
 # Save results
 for result in results:
-    results.click()
+    result.click()
     time.sleep(5)
-    # TODO SAVE JOB
-print(results)
+    button_save = result.find_element(
+        by=By.XPATH,
+        value="/html/body/div[5]/div[3]/div[4]/div/div/main/div/section[2]/div/div[2]/div[1]/div/div[1]/div/div[1]/div[1]/div[3]/div/button",
+    )
+    button_save.click()
+    time.sleep(1)
