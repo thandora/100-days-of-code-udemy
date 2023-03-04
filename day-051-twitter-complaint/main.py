@@ -6,6 +6,7 @@ import time
 import twitter
 
 speed_url = "https://www.speedtest.net/"
+
 # Deny location permission required by Speedtest.net
 options = Options()
 options.set_preference("geo.enabled", False)
@@ -40,7 +41,9 @@ while True:
     except ValueError:
         time.sleep(3)
 
-print(f"DOWN: {dl_speed}\nUP: {ul_speed}")
 
 # Twitter
+twitter = twitter.Twitter(driver=driver, speeds=[dl_speed, ul_speed])
+twitter.load_page()
 twitter.login()
+twitter.post()
