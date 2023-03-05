@@ -4,7 +4,6 @@
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import NoSuchElementException
 from dotenv import load_dotenv
 from typing import Iterable
 from datascraper import DataScraper

@@ -2,6 +2,7 @@
 and organizing them into a structured list.
 """
 
+
 from bs4 import BeautifulSoup
 import requests
 from dotenv import load_dotenv
