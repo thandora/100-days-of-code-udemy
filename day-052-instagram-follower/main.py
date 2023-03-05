@@ -5,14 +5,7 @@ from selenium.common.exceptions import NoSuchElementException
 from dotenv import load_dotenv
 import os
 import time
-from pprint import pprint
 from random import uniform
-
-# # Load env vars
-# load_dotenv(".env")
-# IG_USER = os.getenv("IG_USER")
-# IG_PASS = os.getenv("IG_PASS")
-# SIMILAR_ACC = os.getenv("SIMILAR_ACC")
 
 
 class InstaFollower:
