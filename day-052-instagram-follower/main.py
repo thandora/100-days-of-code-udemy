@@ -107,7 +107,7 @@ class InstaFollower:
                 continue
 
             button.click()
-            time.sleep(uniform(0.7, 2.5))
+            time.sleep(uniform(1.1, 2.5))
 
     def try_find(self, xpath: str) -> object:
         while True:
