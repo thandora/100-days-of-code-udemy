@@ -3,20 +3,35 @@ body {
 }
 
 h1 {
-  font-size: 3rem;
+  font-size: 3.5rem;
   line-height: 1.5;
   font-weight: 900;
   padding-right: 50px;
   margin-bottom: 30px
 }
 
+h2 {
+  font-size: 3rem;
+  line-height: 1.5;
+  font-family: "Montserrat";
+  font-weight: 600;
+}
+
+h3 {
+  font-size: 1.5rem;
+  font-family: "Montserrat";
+  font-weight: 600;
+}
+
 #title {
   background-color: #ff4c68;
   color: white;
+  padding-bottom: 80px;
 }
 
 .container-fluid {
-  padding: 3% 14%;
+  padding: 3% 14% 6%;
+  text-align: center;
 }
 
 .navbar-brand {
@@ -24,10 +39,153 @@ h1 {
   font-size: 2.5rem;
 }
 
+.nav-item {
+  padding: 0 18px;
+}
+
+.navbar-toggler .navbar-toggler-icon {
+  color: blue;
+}
+
+.nav-link {
+  font-size: 1.2rem;
+  font-family: "Montserrat";
+  font-weight: 400;
+  text-align: right;
+  color: rgba(255, 255, 255, 0.767);
+}
+
+.nav-link:hover {
+  color: rgb(255, 255, 255);
+}
+
 .navbar {
-  padding-bottom: 8%;
+  padding-bottom: 4.5rem;
 }
 
 .iphonecat {
-  transform: rotate(15deg);
+  width: 300px;
+  margin-bottom: 50px;
+}
+
+@media (min-width: 990px) {
+  .iphonecat {
+    transform: rotate(15deg);
+    width: 21%;
+    position: absolute;
+    right: 25%;
+  }
+}
+
+
+/* Features Section */
+
+#features {
+  padding: 7% 12%;
+  background-color: white;
+  position: relative;
+}
+
+.feature-items {
+  text-align: center;
+  padding: 5%;
+}
+
+.feature-icons {
+  color: #ef8172;
+  margin-bottom: 12px;
+}
+
+.feature-icons:hover {
+  color: #ff4c68;
+}
+
+#features p {
+  color: rgba(58, 58, 58, 0.747);
+}
+
+/* Testimonials */
+#testimonials {
+  background-color: #ef8172;
+  /* padding: 7% 12%; */
+
+  text-align: center;
+  color: white;
+}
+
+
+
+.testimonial-image {
+  width: 10%;
+  border-radius: 100%;
+  margin: 25px;
+}
+
+.carousel-item {
+  padding: 7% 12%;
+}
+
+/* Press */
+#press {
+  background-color: #ef8172;
+  padding-bottom: 7%;
+  text-align: center;
+}
+
+.press-logo {
+  width: 10%;
+  margin: 20px;
+}
+
+/* Pricing */
+
+#pricing {
+  padding: 7% 12%;
+  text-align: center;
+}
+
+.pricing-header {
+  padding: 5%;
+}
+
+#pricing h3 {
+  padding: 12px 0;
+  margin-bottom: 0;
+}
+
+.pricing-column {
+  max-width: 500px;
+  margin: 25px;
+}
+
+#pricing h2 {
+  font-weight: 600;
+}
+
+/* Call to Action */
+#cta {
+  background-color: #ff4c68;
+  padding: 7% 12%;
+  text-align: center;
+  color: white;
+}
+
+#cta h3 {
+  margin: 5%;
+  font-size: 3.5rem;
+}
+
+.btn {
+  margin: 10px;
+}
+
+/* Footer */
+#footer {
+  padding: 10% 12% 7%;
+  text-align: center;
+}
+
+#footer .a-icons {
+  margin: 0 8px;
+  color: black;
 }
