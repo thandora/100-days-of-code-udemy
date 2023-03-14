@@ -12,14 +12,25 @@ h6 {
   font-family: "Montserrat";
 }
 
-#title {
-  background-color: #ff4c68;
-  color: white;
+#title .container-fluid {
+  text-align: left;
+  padding: 5% 12%;
   padding-bottom: 80px;
 }
 
 .container-fluid {
-  padding: 5% 12%;
+  padding: 4% 12%;
+}
+
+/* Sections */
+
+.colored-section {
+  background-color: #ff4c68;
+  color: white;
+}
+
+.white-section {
+  background-color: white;
 }
 
 
@@ -101,7 +112,6 @@ h6 {
 /* Features Section */
 
 #features {
-  background-color: white;
   position: relative;
 }
 
@@ -131,7 +141,6 @@ h6 {
 
 #testimonials {
   background-color: #ef8172;
-  color: white;
 }
 
 .testimonial-message {
@@ -154,7 +163,7 @@ h6 {
 
 #press {
   background-color: #ef8172;
-  padding-bottom: 7%;
+  padding-bottom: 4%;
 }
 
 .press-logo {
@@ -193,17 +202,12 @@ h6 {
 
 /* Call to Action */
 
-#cta {
-  background-color: #ff4c68;
-  color: white;
-}
-
 #cta .title-heading {
   text-align: center;
 }
 
 .btn {
-  margin: 10px;
+  margin-right: 10px;
 }
 
 
