@@ -1,14 +1,16 @@
-import datetime as dt
-import pandas as pd
-import random
-import smtplib
-from pprint import pprint
-
 """
 Sends a birthday greeting to a celebrant if it's their birthday today.
 The program takes a random template from letter_templates/
 
 """
+
+
+import datetime as dt
+import pandas as pd
+import random
+import smtplib
+
+
 MY_EMAIL = "MY_EMAIL"
 APP_PASSWORD = "MY_APP_PASS"
 
