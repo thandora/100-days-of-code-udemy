@@ -3,22 +3,8 @@ from flask_wtf import FlaskForm
 from flask_bootstrap import Bootstrap
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Length, Email, re
-import os
 
 SECRET_KEY = "SUPER STRONGE PASS"
-
-
-# class LoginForm(FlaskForm):
-#     """Contact form."""
-
-#     email = StringField(
-#         "Email", [Email(message=("Not a valid email address.")), DataRequired()]
-# #     )
-# #     password = StringField(
-#         "Password",
-#         [DataRequired(), Length(min=4, message=("Your message is too short."))],
-#     )
-#     submit = SubmitField("Submit")
 
 
 class LoginForm(FlaskForm):
@@ -39,6 +25,7 @@ class LoginForm(FlaskForm):
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = SECRET_KEY
+Bootstrap(app)
 
 
 @app.route("/")
