@@ -55,6 +55,8 @@ class Book(db.Model):
 #     # Note that fields can be accessed either by
 #     # dot notation (book.title) or by
 #     # indexing: (book["title"])
+#     # difference is indexing by brackets read-only
+#     # while dot notation allows for modification of field value.
 #     print(book.title)
 
 # # # 2b Read records by query (exact match)
