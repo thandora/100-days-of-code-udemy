@@ -28,9 +28,9 @@ class Book(db.Model):
         return super().__repr__()
 
 
-# # Save table to database
-# with app.app_context():
-#     db.create_all()
+# Save table to database (run once)
+with app.app_context():
+    db.create_all()
 
 
 #
@@ -90,10 +90,10 @@ class Book(db.Model):
 #     book_to_update.author = "Joking Roller"
 #     db.session.commit()
 
-with app.app_context():
-    all_books = db.session.query(Book).all()
-    for book in all_books:
-        print(book.author)
+# with app.app_context():
+#     all_books = db.session.query(Book).all()
+#     for book in all_books:
+#         print(book.author)
 
 # # # 4 Delete a record (by PRIMARY KEY)
 # with app.app_context():
