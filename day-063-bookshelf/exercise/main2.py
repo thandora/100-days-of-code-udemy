@@ -52,6 +52,9 @@ class Book(db.Model):
 #     all_books = db.session.query(Book).all()
 
 # for book in all_books:
+#     # Note that fields can be accessed either by
+#     # dot notation (book.title) or by
+#     # indexing: (book["title"])
 #     print(book.title)
 
 # # # 2b Read records by query (exact match)
