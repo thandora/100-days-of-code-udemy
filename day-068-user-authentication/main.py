@@ -78,9 +78,7 @@ def register():
 
             return redirect(url_for("secrets", name=new_user.name))
 
-    return render_template(
-        "register.html", error=error, logged_in=current_user.is_authenticated
-    )
+    return render_template("register.html", logged_in=current_user.is_authenticated)
 
 
 @app.route("/login", methods=["GET", "POST"])
