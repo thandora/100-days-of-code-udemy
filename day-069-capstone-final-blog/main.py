@@ -14,9 +14,8 @@ from flask_login import (
     logout_user,
 )
 from functools import wraps
-from forms import CreatePostForm, RegisterForm, LoginForm
-
-# from flask_gravatar import Gravatar
+from forms import CreatePostForm, RegisterForm, LoginForm, CommentForm
+from flask_gravatar import Gravatar
 
 
 ADMIN_EMAIL = "a@a.a"
@@ -35,6 +34,18 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///blog.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 
+# Gravatar
+gravatar = Gravatar(
+    app,
+    size=100,
+    rating="g",
+    default="retro",
+    force_default=False,
+    force_lower=False,
+    use_ssl=False,
+    base_url=None,
+)
+
 
 # Admin-only decorator
 def admin_only(f):
@@ -50,7 +61,7 @@ def admin_only(f):
     return decorated_function
 
 
-# CONFIGURE TABLES
+# Database Tables
 class User(db.Model, UserMixin):
     __tablename__ = "users"
 
@@ -59,8 +70,14 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(250), unique=True, nullable=False)
     password = db.Column(db.String(250), unique=True, nullable=False)
 
+    # Parent-Children relationships (One to Many)
+
+    # # User to BlogPost
     # The "author" refers to the author property in the BlogPost class.
     posts = relationship("BlogPost", back_populates="author")
+
+    # User to Comment
+    comments = relationship("Comment", back_populates="author")
 
 
 class BlogPost(db.Model):
@@ -68,11 +85,12 @@ class BlogPost(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
 
-    # Create Foreign Key, "users.id" the users refers to the tablename of User.
+    # Foreign Key
     author_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    # Create reference to the User object, the "posts" refers to the posts
-    # property in the User class.
     author = relationship("User", back_populates="posts")
+
+    # Parent-Children relationship
+    comments = relationship("Comment", back_populates="parent_post")
 
     title = db.Column(db.String(250), unique=True, nullable=False)
     subtitle = db.Column(db.String(250), nullable=False)
@@ -81,11 +99,29 @@ class BlogPost(db.Model):
     img_url = db.Column(db.String(250), nullable=False)
 
 
+class Comment(db.Model):
+    __tablename__ = "comments"
+
+    id = db.Column(db.Integer, primary_key=True)
+    text = db.Column(db.String(300), nullable=False)
+
+    # Foreign Key for User
+    author_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    # Children-Parent relationship for User
+    author = relationship("User", back_populates="comments")
+
+    # Foreign Key for Blog
+    post_id = db.Column(db.Integer, db.ForeignKey("blog_posts.id"))
+    # Children-Parent relationship for Comment
+    parent_post = relationship("BlogPost", back_populates="comments")
+
+
 # # Run once. Create tables in database
 # with app.app_context():
 #     db.create_all()
 
 
+# # # # Routes # # # #
 @login_manager.user_loader
 def load_user(user_id):
     return db.session.get(User, user_id)
@@ -157,10 +193,29 @@ def logout():
     return redirect(url_for("get_all_posts"))
 
 
-@app.route("/post/<int:post_id>")
+@app.route("/post/<int:post_id>", methods=["GET", "POST"])
 def show_post(post_id):
+    form = CommentForm()
     requested_post = BlogPost.query.get(post_id)
-    return render_template("post.html", post=requested_post)
+
+    if form.validate_on_submit():
+        # Only allow comments from logged in users.
+        if current_user.is_authenticated:
+            new_comment = Comment()
+            new_comment.text = form.comment.data
+            new_comment.author_id = current_user.id
+            new_comment.post_id = post_id
+
+            db.session.add(new_comment)
+            db.session.commit()
+
+        else:
+            flash("You need to be logged in to comment.")
+
+    comments = requested_post.comments
+    return render_template(
+        "post.html", post=requested_post, form=form, comments=comments
+    )
 
 
 @app.route("/about")
@@ -174,17 +229,26 @@ def contact():
 
 
 @app.route("/new-post", methods=["GET", "POST"])
+@login_required
+@admin_only
 def add_new_post():
     form = CreatePostForm()
+    # print(form.title.data)
+    # print(form.subtitle.data)
+    # print(form.body.data)
+    # print(form.img_url.data)
+    # print(current_user)
+
     if form.validate_on_submit():
-        new_post = BlogPost(
-            title=form.title.data,
-            subtitle=form.subtitle.data,
-            body=form.body.data,
-            img_url=form.img_url.data,
-            author=current_user,
-            date=date.today().strftime("%B %d, %Y"),
-        )
+        new_post = BlogPost()
+
+        new_post.title = form.title.data
+        new_post.subtitle = form.subtitle.data
+        new_post.body = form.body.data
+        new_post.img_url = form.img_url.data
+        new_post.author = current_user
+        new_post.date = date.today().strftime("%B %#d, %Y")
+
         db.session.add(new_post)
         db.session.commit()
         return redirect(url_for("get_all_posts"))
@@ -192,6 +256,8 @@ def add_new_post():
 
 
 @app.route("/edit-post/<int:post_id>", methods=["GET", "POST"])
+@login_required
+@admin_only
 def edit_post(post_id):
     post = BlogPost.query.get(post_id)
     edit_form = CreatePostForm(
@@ -214,6 +280,8 @@ def edit_post(post_id):
 
 
 @app.route("/delete/<int:post_id>")
+@login_required
+@admin_only
 def delete_post(post_id):
     post_to_delete = BlogPost.query.get(post_id)
     db.session.delete(post_to_delete)
