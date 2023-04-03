@@ -135,6 +135,87 @@ def get_all_posts():
     )
 
 
+@app.route("/post/<int:post_id>", methods=["GET", "POST"])
+def show_post(post_id):
+    form = CommentForm()
+    requested_post = BlogPost.query.get(post_id)
+
+    if form.validate_on_submit():
+        # Only allow comments from logged in users.
+        if current_user.is_authenticated:
+            new_comment = Comment()
+            new_comment.text = form.comment.data
+            new_comment.author_id = current_user.id
+            new_comment.post_id = post_id
+
+            db.session.add(new_comment)
+            db.session.commit()
+
+        else:
+            flash("You need to be logged in to comment.")
+
+    comments = requested_post.comments
+    return render_template(
+        "post.html", post=requested_post, form=form, comments=comments
+    )
+
+
+@app.route("/new-post", methods=["GET", "POST"])
+@login_required
+@admin_only
+def add_new_post():
+    form = CreatePostForm()
+
+    if form.validate_on_submit():
+        new_post = BlogPost()
+
+        new_post.title = form.title.data
+        new_post.subtitle = form.subtitle.data
+        new_post.body = form.body.data
+        new_post.img_url = form.img_url.data
+        new_post.author = current_user
+        new_post.date = date.today().strftime("%B %#d, %Y")
+
+        db.session.add(new_post)
+        db.session.commit()
+        return redirect(url_for("get_all_posts"))
+    return render_template("make-post.html", form=form)
+
+
+@app.route("/edit-post/<int:post_id>", methods=["GET", "POST"])
+@login_required
+@admin_only
+def edit_post(post_id):
+    post = BlogPost.query.get(post_id)
+    edit_form = CreatePostForm(
+        title=post.title,
+        subtitle=post.subtitle,
+        img_url=post.img_url,
+        author=post.author,
+        body=post.body,
+    )
+    if edit_form.validate_on_submit():
+        post.title = edit_form.title.data
+        post.subtitle = edit_form.subtitle.data
+        post.img_url = edit_form.img_url.data
+        post.author = current_user
+        post.body = edit_form.body.data
+        db.session.commit()
+        return redirect(url_for("show_post", post_id=post.id))
+
+    return render_template("make-post.html", form=edit_form)
+
+
+@app.route("/delete/<int:post_id>")
+@login_required
+@admin_only
+def delete_post(post_id):
+    post_to_delete = BlogPost.query.get(post_id)
+    db.session.delete(post_to_delete)
+    db.session.commit()
+    return redirect(url_for("get_all_posts"))
+
+
 @app.route("/register", methods=["GET", "POST"])
 def register():
     form = RegisterForm()
@@ -193,31 +274,6 @@ def logout():
     return redirect(url_for("get_all_posts"))
 
 
-@app.route("/post/<int:post_id>", methods=["GET", "POST"])
-def show_post(post_id):
-    form = CommentForm()
-    requested_post = BlogPost.query.get(post_id)
-
-    if form.validate_on_submit():
-        # Only allow comments from logged in users.
-        if current_user.is_authenticated:
-            new_comment = Comment()
-            new_comment.text = form.comment.data
-            new_comment.author_id = current_user.id
-            new_comment.post_id = post_id
-
-            db.session.add(new_comment)
-            db.session.commit()
-
-        else:
-            flash("You need to be logged in to comment.")
-
-    comments = requested_post.comments
-    return render_template(
-        "post.html", post=requested_post, form=form, comments=comments
-    )
-
-
 @app.route("/about")
 def about():
     return render_template("about.html")
@@ -226,78 +282,6 @@ def about():
 @app.route("/contact")
 def contact():
     return render_template("contact.html")
-
-
-@app.route("/new-post", methods=["GET", "POST"])
-@login_required
-@admin_only
-def add_new_post():
-    form = CreatePostForm()
-    # print(form.title.data)
-    # print(form.subtitle.data)
-    # print(form.body.data)
-    # print(form.img_url.data)
-    # print(current_user)
-
-    if form.validate_on_submit():
-        new_post = BlogPost()
-
-        new_post.title = form.title.data
-        new_post.subtitle = form.subtitle.data
-        new_post.body = form.body.data
-        new_post.img_url = form.img_url.data
-        new_post.author = current_user
-        new_post.date = date.today().strftime("%B %#d, %Y")
-
-        db.session.add(new_post)
-        db.session.commit()
-        return redirect(url_for("get_all_posts"))
-    return render_template("make-post.html", form=form)
-
-
-@app.route("/edit-post/<int:post_id>", methods=["GET", "POST"])
-@login_required
-@admin_only
-def edit_post(post_id):
-    post = BlogPost.query.get(post_id)
-    edit_form = CreatePostForm(
-        title=post.title,
-        subtitle=post.subtitle,
-        img_url=post.img_url,
-        author=post.author,
-        body=post.body,
-    )
-    if edit_form.validate_on_submit():
-        post.title = edit_form.title.data
-        post.subtitle = edit_form.subtitle.data
-        post.img_url = edit_form.img_url.data
-        post.author = current_user
-        post.body = edit_form.body.data
-        db.session.commit()
-        return redirect(url_for("show_post", post_id=post.id))
-
-    return render_template("make-post.html", form=edit_form)
-
-
-@app.route("/delete/<int:post_id>")
-@login_required
-@admin_only
-def delete_post(post_id):
-    post_to_delete = BlogPost.query.get(post_id)
-    db.session.delete(post_to_delete)
-    db.session.commit()
-    return redirect(url_for("get_all_posts"))
-
-
-@app.route("/debug-me")
-@login_required
-@admin_only
-def debug_me():
-    # x = User.query.filter_by(email="qqq").first()
-    # aaaaa = User.query.filter_by(email="a@a.a").first()
-
-    # print(f">>>>is active: {current_user.is_authenticated}")
-    return redirect(url_for("get_all_posts"))
 
 
 if __name__ == "__main__":
