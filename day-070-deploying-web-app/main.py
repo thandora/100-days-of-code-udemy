@@ -16,9 +16,10 @@ from flask_login import (
 from functools import wraps
 from forms import CreatePostForm, RegisterForm, LoginForm, CommentForm
 from flask_gravatar import Gravatar
+import os
 
 
-ADMIN_EMAIL = "a@a.a"
+ADMIN_EMAIL = os.environ.get("ADMIN_EMAIL")
 
 
 app = Flask(__name__)
@@ -30,7 +31,8 @@ login_manager.init_app(app)
 
 
 # CONNECT TO DB
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///blog.db"
+
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 
@@ -116,9 +118,9 @@ class Comment(db.Model):
     parent_post = relationship("BlogPost", back_populates="comments")
 
 
-# # Run once. Create tables in database
-# with app.app_context():
-#     db.create_all()
+# Run once. Create tables in database
+with app.app_context():
+    db.create_all()
 
 
 # # # # Routes # # # #
@@ -285,4 +287,4 @@ def contact():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()

@@ -1,4 +1,4 @@
-# Blog with Comments
-The final version of the blog capstone (finally)
+# Deploying Web App
+The final version of the blog capstone hosted on [render.com](https://dashboard.render.com/). (Originally supposed to be [heroku](https://www.heroku.com/), but is now not *free*)
 # Objective
-To enable user authentication (register, login, logout users) and commenting on the blog capstone (on top of previous existing features). New features were implemented using the newly introduced relation database.
+To deploy the blog capstone on render.com, and change the database from SQLite to PostgreSQL
